@@ -1,11 +1,18 @@
 // variable and import declarations
 const express = require('express');
-const app = express();
 const path = require('path');
+const logger = require("morgan");
+const mongoose = require("mongoose");
+const Exercise = require("./models/workouts");
+const app = express();
 const PORT = process.env.PORT || 8080;
 
 // middleware expressions
 app.use(express.static('public'))
+app.use(logger("dev"));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/userdb", { useNewUrlParser: true });
 
 // routes
 app.get('/', function(req, res) {
